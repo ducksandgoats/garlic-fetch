@@ -7,7 +7,7 @@ const HttpsProxyAgent = require('https-proxy-agent').HttpsProxyAgent
 module.exports = function makeGarlicFetch (opts = {}) {
   const DEFAULT_OPTS = { timeout: 30000 }
   const finalOpts = { ...DEFAULT_OPTS, ...opts }
-  const mainConfig = {ip: 'localhost', port: 4444, ports: 4445}
+  const mainConfig = {ip: '127.0.0.1', port: 4444, ports: 4445}
   const iip = axios.create({ 'httpAgent': new HttpProxyAgent(`http://${mainConfig.ip}:${mainConfig.port}`), 'httpsAgent': new HttpsProxyAgent(`http://${mainConfig.ip}:${mainConfig.ports}`) })
   const useTimeOut = finalOpts.timeout
 
