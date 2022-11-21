@@ -8,7 +8,7 @@ module.exports = function makeGarlicFetch (opts = {}) {
   const DEFAULT_OPTS = { timeout: 30000 }
   const finalOpts = { ...DEFAULT_OPTS, ...opts }
   const mainConfig = {ip: 'localhost', port: 4444, ports: 4445}
-  const tor = axios.create({ 'httpAgent': new HttpProxyAgent(`http://${mainConfig.ip}:${mainConfig.port}`), 'httpsAgent': new HttpsProxyAgent(`http://${mainConfig.ip}:${mainConfig.ports}`) })
+  const iip = axios.create({ 'httpAgent': new HttpProxyAgent(`http://${mainConfig.ip}:${mainConfig.port}`), 'httpsAgent': new HttpsProxyAgent(`http://${mainConfig.ip}:${mainConfig.ports}`) })
   const useTimeOut = finalOpts.timeout
 
   function takeCareOfIt(data){
@@ -33,8 +33,8 @@ module.exports = function makeGarlicFetch (opts = {}) {
 
       const mainURL = new URL(request.url)
 
-      if ((mainURL.protocol !== 'tor:' && mainURL.protocol !== 'tors:') || !request.method) {
-        throw new Error(`request is not correct, protocol must be tor:// or tors://, or requires a method`)
+      if ((mainURL.protocol !== 'iip:' && mainURL.protocol !== 'iips:') || !request.method) {
+        throw new Error(`request is not correct, protocol must be iip:// or iips://, or requires a method`)
       }
 
       if(mainURL.hostname === '_'){
@@ -58,7 +58,7 @@ module.exports = function makeGarlicFetch (opts = {}) {
         delete request.body
       }
 
-    const res = await tor.request(request)
+    const res = await iip.request(request)
     return sendTheData(request.signal, {statusCode: res.status, headers: res.headers, data: [res.data]})
     } catch(e){
       const {mainHead, mainData} = (() => {
