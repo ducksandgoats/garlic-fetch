@@ -1,8 +1,8 @@
 const makeFetch = require('make-fetch')
 const detect = require('detect-port')
 const axios = require('axios')
-const HttpProxyAgent = require('http-proxy-agent')
-const HttpsProxyAgent = require('https-proxy-agent')
+const HttpProxyAgent = require('http-proxy-agent').HttpProxyAgent
+const HttpsProxyAgent = require('https-proxy-agent').HttpsProxyAgent
 
 module.exports = function makeGarlicFetch (opts = {}) {
   const DEFAULT_OPTS = { timeout: 30000 }
