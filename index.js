@@ -7,8 +7,8 @@ const HttpsProxyAgent = require('https-proxy-agent')
 module.exports = function makeGarlicFetch (opts = {}) {
   const DEFAULT_OPTS = { timeout: 30000 }
   const finalOpts = { ...DEFAULT_OPTS, ...opts }
-  const mainData = {ip: 'localhost', port: 4444}
-  const tor = axios.create({ 'httpAgent': new HttpProxyAgent(`http://${mainData.ip}:${mainData.port}`), 'httpsAgent': new HttpsProxyAgent(`http://${mainData.ip}:${mainData.port}`) })
+  const mainConfig = {ip: 'localhost', port: 4444, ports: 4445}
+  const tor = axios.create({ 'httpAgent': new HttpProxyAgent(`http://${mainConfig.ip}:${mainConfig.port}`), 'httpsAgent': new HttpsProxyAgent(`http://${mainConfig.ip}:${mainConfig.ports}`) })
   const useTimeOut = finalOpts.timeout
 
   function takeCareOfIt(data){
@@ -38,8 +38,9 @@ module.exports = function makeGarlicFetch (opts = {}) {
       }
 
       if(mainURL.hostname === '_'){
-        const detectedPort = await detect(mainData.port)
-        const isItRunning = mainData.port !== detectedPort
+        const detectedPort = await detect(mainConfig.port)
+        const detectedPorts = await detect(mainConfig.ports)
+        const isItRunning = mainConfig.port !== detectedPort && mainConfig.ports !== detectedPorts
         return sendTheData(request.signal, {statusCode: 200, headers: {'Content-Type': 'text/plain; charset=utf-8'}, data: [String(isItRunning)]})
       }
 
