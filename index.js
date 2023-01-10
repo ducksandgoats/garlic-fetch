@@ -36,6 +36,9 @@ module.exports = async function makeGarlicFetch (opts = {}) {
       if(request.method === 'CONNECT' || request.method === 'GET' || request.method === 'HEAD' || request.method === 'OPTIONS' || request.method === 'TRACE'){
         delete request.body
       }
+      if(!request.signal){
+        delete request.signal
+      }
 
       const res = await got(request)
       return {statusCode: res.statusCode, headers: res.headers, data: [res.body]}
