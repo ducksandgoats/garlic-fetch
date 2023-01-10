@@ -32,6 +32,11 @@ module.exports = async function makeGarlicFetch (opts = {}) {
       request.timeout = {request: (request.headers['x-timer'] && request.headers['x-timer'] !== '0') || (mainURL.searchParams.has('x-timer') && mainURL.searchParams.get('x-timer') !== '0') ? Number(request.headers['x-timer'] || mainURL.searchParams.get('x-timer')) * 1000 : useTimeOut}
       request.agent = { 'http': new HttpProxyAgent(`http://${mainConfig.ip}:${mainConfig.port}`), 'https': new HttpsProxyAgent(`http://${mainConfig.ip}:${mainConfig.ports}`) }
 
+      delete request.referrer
+      if(request.method === 'CONNECT' || request.method === 'GET' || request.method === 'HEAD' || request.method === 'OPTIONS' || request.method === 'TRACE'){
+        delete request.body
+      }
+
       const res = await got(request)
       return {statusCode: res.statusCode, headers: res.headers, data: [res.body]}
     } catch(e){
