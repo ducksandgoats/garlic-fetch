@@ -5,7 +5,7 @@ module.exports = async function makeGarlicFetch (opts = {}) {
   const HttpProxyAgent = require('http-proxy-agent').HttpProxyAgent
   const HttpsProxyAgent = require('https-proxy-agent').HttpsProxyAgent
   const finalOpts = { timeout: 30000, ...opts }
-  const mainConfig = {ip: '127.0.0.1', port: 4444, ports: 4445}
+  const mainConfig = {ip: 'localhost', port: 4444, ports: 4445}
   const useTimeOut = finalOpts.timeout
 
   const fetch = makeFetch(async (request) => {
