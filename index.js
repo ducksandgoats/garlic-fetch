@@ -14,7 +14,7 @@ module.exports = async function makeGarlicFetch (opts = {}) {
 
       const mainURL = new URL(request.url)
 
-      if ((mainURL.protocol !== 'iip:' && mainURL.protocol !== 'iips:') || !request.method) {
+      if ((!request.url.startsWith('iip:') && !request.url.startsWith('iips:')) || !request.method) {
         throw new Error(`request is not correct, protocol must be iip:// or iips://, or requires a method`)
       }
 
@@ -25,9 +25,7 @@ module.exports = async function makeGarlicFetch (opts = {}) {
         return {statusCode: 200, headers: {'Content-Type': 'text/plain; charset=utf-8'}, data: [String(isItRunning)]}
       }
 
-      const mainProtocol = mainURL.protocol.includes('s') ? 'https:' : 'http:'
-
-      request.url = request.url.replace(mainURL.protocol, mainProtocol)
+      request.url = request.url.replace('iip', 'http')
 
       request.timeout = {request: (request.headers['x-timer'] && request.headers['x-timer'] !== '0') || (mainURL.searchParams.has('x-timer') && mainURL.searchParams.get('x-timer') !== '0') ? Number(request.headers['x-timer'] || mainURL.searchParams.get('x-timer')) * 1000 : useTimeOut}
       request.agent = { 'http': new HttpProxyAgent(`http://${mainConfig.ip}:${mainConfig.port}`), 'https': new HttpsProxyAgent(`http://${mainConfig.ip}:${mainConfig.ports}`) }
