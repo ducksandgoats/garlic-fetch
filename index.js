@@ -1,5 +1,5 @@
 module.exports = async function makeGarlicFetch (opts = {}) {
-  const makeFetch = require('make-fetch')
+  const {makeFetch} = await import('make-fetch')
   const {got} = await import('got')
   const detect = require('detect-port')
   const HttpProxyAgent = require('http-proxy-agent').HttpProxyAgent

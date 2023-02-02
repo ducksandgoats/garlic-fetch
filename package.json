@@ -1,6 +1,6 @@
 {
   "name": "garlic-fetch",
-  "version": "21.0.1",
+  "version": "21.0.2",
   "description": "coming soon",
   "main": "index.js",
   "scripts": {
@@ -14,6 +14,6 @@
     "got": "^12.5.3",
     "http-proxy-agent": "^5.0.0",
     "https-proxy-agent": "^5.0.1",
-    "make-fetch": "^2.3.4"
+    "make-fetch": "^3.1.1"
   }
 }
