@@ -37,7 +37,7 @@ module.exports = async function makeGarlicFetch (opts = {}) {
         const detectedPort = await detect(mainConfig.port)
         const detectedPorts = await detect(mainConfig.ports)
         const isItRunning = mainConfig.port !== detectedPort && mainConfig.ports !== detectedPorts
-        return {statusCode: 200, headers: {'Content-Type': 'text/plain; charset=utf-8'}, data: [String(isItRunning)]}
+        return {status: 200, headers: {'Content-Type': 'text/plain; charset=utf-8'}, body: [String(isItRunning)]}
       }
 
       request.url = request.url.replace('iip', 'http')
@@ -54,7 +54,7 @@ module.exports = async function makeGarlicFetch (opts = {}) {
       }
 
       const res = await got(request)
-      return sendTheData(signal, {statusCode: res.statusCode, headers: res.headers, data: [res.body]})
+      return sendTheData(signal, {status: res.statusCode, headers: res.headers, body: [res.body]})
   }
   async function handleIips(request) {
     const { url, method, headers: reqHeaders, body, signal, referrer } = request
@@ -72,7 +72,7 @@ module.exports = async function makeGarlicFetch (opts = {}) {
         const detectedPort = await detect(mainConfig.port)
         const detectedPorts = await detect(mainConfig.ports)
         const isItRunning = mainConfig.port !== detectedPort && mainConfig.ports !== detectedPorts
-        return {statusCode: 200, headers: {'Content-Type': 'text/plain; charset=utf-8'}, data: [String(isItRunning)]}
+        return {status: 200, headers: {'Content-Type': 'text/plain; charset=utf-8'}, body: [String(isItRunning)]}
       }
 
       request.url = request.url.replace('iip', 'http')
@@ -89,7 +89,7 @@ module.exports = async function makeGarlicFetch (opts = {}) {
       }
 
     const res = await got(request)
-    return sendTheData(signal, {statusCode: res.statusCode, headers: res.headers, data: [res.body]})
+    return sendTheData(signal, {status: res.statusCode, headers: res.headers, body: [res.body]})
   }
   router.any('iip://*/**', handleIip)
   router.any('iips://*/**', handleIips)
