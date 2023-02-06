@@ -27,11 +27,7 @@ module.exports = async function makeGarlicFetch (opts = {}) {
     if(signal){
       signal.addEventListener('abort', takeCareOfIt)
     }
-      const mainURL = new URL(request.url)
-
-      if ((!request.url.startsWith('iip:') && !request.url.startsWith('iips:')) || !request.method) {
-        throw new Error(`request is not correct, protocol must be iip:// or iips://, or requires a method`)
-      }
+      const mainURL = new URL(url)
 
       if(mainURL.hostname === '_'){
         const detectedPort = await detect(mainConfig.port)
@@ -62,11 +58,7 @@ module.exports = async function makeGarlicFetch (opts = {}) {
     if(signal){
       signal.addEventListener('abort', takeCareOfIt)
     }
-      const mainURL = new URL(request.url)
-
-      if ((!request.url.startsWith('iip:') && !request.url.startsWith('iips:')) || !request.method) {
-        throw new Error(`request is not correct, protocol must be iip:// or iips://, or requires a method`)
-      }
+      const mainURL = new URL(url)
 
       if(mainURL.hostname === '_'){
         const detectedPort = await detect(mainConfig.port)
