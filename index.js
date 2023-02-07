@@ -23,9 +23,9 @@ module.exports = async function makeGarlicFetch (opts = {}) {
   }
 
 function useAgent(_parsedURL) {
-		if (_parsedURL.protocol === 'iip:') {
+		if (_parsedURL.protocol === 'http:') {
 			return mainAgents.http;
-		} else if(_parsedURL.protocol === 'iips:'){
+		} else if(_parsedURL.protocol === 'https:'){
 			return mainAgents.https;
     } else {
       throw new Error('protocol is not valid')
@@ -45,14 +45,15 @@ function useAgent(_parsedURL) {
         const detectedPorts = await detect(mainConfig.ports)
         const isItRunning = mainConfig.port !== detectedPort && mainConfig.ports !== detectedPorts
         return {status: 200, headers: {'Content-Type': 'text/plain; charset=utf-8'}, body: [String(isItRunning)]}
-      }
-
-      request.url = request.url.replace('iip', 'http')
+    }
+    
     request.agent = useAgent
+    const useLink = request.url.replace('iip', 'http')
+    delete request.url
     const mainTimeout = (request.headers['x-timer'] && request.headers['x-timer'] !== '0') || (mainURL.searchParams.has('x-timer') && mainURL.searchParams.get('x-timer') !== '0') ? Number(request.headers['x-timer'] || mainURL.searchParams.get('x-timer')) * 1000 : useTimeOut
 
     const res = await Promise.race([
-      nodeFetch(request.url, request),
+      nodeFetch(useLink, request),
       new Promise((resolve) => setTimeout(resolve, mainTimeout))
     ])
       return sendTheData(signal, {status: res.status, headers: res.headers, body: [res.body]})
@@ -72,12 +73,13 @@ function useAgent(_parsedURL) {
         return {status: 200, headers: {'Content-Type': 'text/plain; charset=utf-8'}, body: [String(isItRunning)]}
       }
 
-      request.url = request.url.replace('iip', 'http')
     request.agent = useAgent
+    const useLink = request.url.replace('iip', 'http')
+    delete request.url
     const mainTimeout = (request.headers['x-timer'] && request.headers['x-timer'] !== '0') || (mainURL.searchParams.has('x-timer') && mainURL.searchParams.get('x-timer') !== '0') ? Number(request.headers['x-timer'] || mainURL.searchParams.get('x-timer')) * 1000 : useTimeOut
 
     const res = await Promise.race([
-      nodeFetch(request.url, request),
+      nodeFetch(useLink, request),
       new Promise((resolve) => setTimeout(resolve, mainTimeout))
     ])
     return sendTheData(signal, {status: res.status, headers: res.headers, body: [res.body]})
