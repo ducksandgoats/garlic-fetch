@@ -54,7 +54,7 @@ function useAgent(_parsedURL) {
 
     const res = await Promise.race([
       nodeFetch(useLink, request),
-      new Promise((resolve) => setTimeout(resolve, mainTimeout))
+      new Promise((resolve, reject) => setTimeout(() => {reject(new Error('timeout'))}, mainTimeout))
     ])
       return sendTheData(signal, {status: res.status, headers: res.headers, body: [res.body]})
   }
@@ -80,7 +80,7 @@ function useAgent(_parsedURL) {
 
     const res = await Promise.race([
       nodeFetch(useLink, request),
-      new Promise((resolve) => setTimeout(resolve, mainTimeout))
+      new Promise((resolve, reject) => setTimeout(() => {reject(new Error('timeout'))}, mainTimeout))
     ])
     return sendTheData(signal, {status: res.status, headers: res.headers, body: [res.body]})
   }
