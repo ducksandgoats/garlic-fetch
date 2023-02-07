@@ -23,9 +23,9 @@ module.exports = async function makeGarlicFetch (opts = {}) {
   }
 
 function useAgent(_parsedURL) {
-		if (_parsedURL.protocol === 'http:') {
+		if (_parsedURL.protocol === 'iip:') {
 			return mainAgents.http;
-		} else if(_parsedURL.protocol === 'https:'){
+		} else if(_parsedURL.protocol === 'iips:'){
 			return mainAgents.https;
     } else {
       throw new Error('protocol is not valid')
