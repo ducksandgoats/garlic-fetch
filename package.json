@@ -1,6 +1,6 @@
 {
   "name": "garlic-fetch",
-  "version": "22.0.7",
+  "version": "22.0.8",
   "description": "coming soon",
   "main": "index.js",
   "scripts": {
@@ -11,9 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "detect-port": "^1.5.1",
-    "got": "^12.5.3",
     "http-proxy-agent": "^5.0.0",
     "https-proxy-agent": "^5.0.1",
-    "make-fetch": "github:ducksandgoats/make-fetch"
+    "make-fetch": "github:ducksandgoats/make-fetch",
+    "node-fetch": "^3.3.0"
   }
 }
