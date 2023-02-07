@@ -51,12 +51,8 @@ function useAgent(_parsedURL) {
     const useLink = request.url.replace('iip', 'http')
     delete request.url
     const mainTimeout = (request.headers['x-timer'] && request.headers['x-timer'] !== '0') || (mainURL.searchParams.has('x-timer') && mainURL.searchParams.get('x-timer') !== '0') ? Number(request.headers['x-timer'] || mainURL.searchParams.get('x-timer')) * 1000 : useTimeOut
-
-    const res = await Promise.race([
-      nodeFetch(useLink, request),
-      new Promise((resolve, reject) => setTimeout(() => {reject(new Error('timeout'))}, mainTimeout))
-    ])
-      return sendTheData(signal, {status: res.status, headers: res.headers, body: [res.body]})
+    
+    return sendTheData(signal, await Promise.race([nodeFetch(useLink, request), new Promise((resolve, reject) => setTimeout(() => { reject(new Error('timeout')) }, mainTimeout))]))
   }
   async function handleIips(request) {
     const { url, method, headers: reqHeaders, body, signal, referrer } = request
@@ -78,11 +74,7 @@ function useAgent(_parsedURL) {
     delete request.url
     const mainTimeout = (request.headers['x-timer'] && request.headers['x-timer'] !== '0') || (mainURL.searchParams.has('x-timer') && mainURL.searchParams.get('x-timer') !== '0') ? Number(request.headers['x-timer'] || mainURL.searchParams.get('x-timer')) * 1000 : useTimeOut
 
-    const res = await Promise.race([
-      nodeFetch(useLink, request),
-      new Promise((resolve, reject) => setTimeout(() => {reject(new Error('timeout'))}, mainTimeout))
-    ])
-    return sendTheData(signal, {status: res.status, headers: res.headers, body: [res.body]})
+    return sendTheData(signal, await Promise.race([nodeFetch(useLink, request), new Promise((resolve, reject) => setTimeout(() => {reject(new Error('timeout'))}, mainTimeout))]))
   }
   router.any('iip://*/**', handleIip)
   router.any('iips://*/**', handleIips)
