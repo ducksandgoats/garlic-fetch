@@ -71,7 +71,7 @@ function useAgent(_parsedURL) {
       if(mainURL.hostname === '_'){
         const detectedPort = await detect(mainPort)
         const isItRunning = mainPort !== detectedPort
-        return {status: 200, headers: {'Content-Type': 'text/plain; charset=utf-8'}, body: [String(isItRunning)]}
+        return {status: 200, headers: {'Content-Type': 'text/plain; charset=utf-8'}, body: String(isItRunning)}
     }
     
     request.agent = useAgent
