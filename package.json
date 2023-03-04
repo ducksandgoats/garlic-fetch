@@ -12,7 +12,7 @@
   "dependencies": {
     "detect-port": "^1.5.1",
     "http-proxy-agent": "^5.0.0",
-    "make-fetch": "github:ducksandgoats/make-fetch",
+    "make-fetch": "^3.1.1",
     "node-fetch": "^3.3.0"
   }
 }
