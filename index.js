@@ -3,11 +3,12 @@ module.exports = async function makeGarlicFetch (opts = {}) {
   const { fetch, router } = makeRoutedFetch({onNotFound: handleEmpty, onError: handleError})
   const { default: nodeFetch } = await import('node-fetch')
   const detect = require('detect-port')
+  const SocksProxyAgent = require('socks-proxy-agent').SocksProxyAgent
   const HttpProxyAgent = require('http-proxy-agent').HttpProxyAgent
   const finalOpts = { timeout: 30000, ...opts }
-  const mainPort = finalOpts.http || 4444
+  const mainPort = finalOpts.socks || finalOpts.http || 4444
   const useTimeOut = finalOpts.timeout
-  const mainAgent = new HttpProxyAgent(`http://127.0.0.1:${mainPort}`)
+  const mainAgent = finalOpts.socks ? new SocksProxyAgent(`socks5h://127.0.0.1:${finalOpts.socks}`) : finalOpts.http ? new HttpProxyAgent(`http://127.0.0.1:${finalOpts.http}`) : new HttpProxyAgent('http://127.0.0.1:4444')
 
   function handleEmpty(request) {
     const { url, headers: reqHeaders, method, body, signal } = request
