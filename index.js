@@ -80,7 +80,9 @@ function useAgent(_parsedURL) {
     delete request.url
     const mainTimeout = reqHeaders.has('x-timer') || mainURL.searchParams.has('x-timer') ? reqHeaders.get('x-timer') !== '0' || mainURL.searchParams.get('x-timer') !== '0' ? Number(reqHeaders.get('x-timer') || mainURL.searchParams.get('x-timer')) * 1000 : undefined : useTimeOut
     
-    return sendTheData(signal, await handleData(mainTimeout, nodeFetch(useLink, request)))
+    const mainData = await handleData(mainTimeout, nodeFetch(useLink, request))
+    
+    return sendTheData(signal, mainData)
   }
 
   router.any('iip://*/**', handleIip)
