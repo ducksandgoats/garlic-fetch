@@ -76,11 +76,11 @@ function useAgent(_parsedURL) {
     }
     
     request.agent = useAgent
-    const useLink = request.url.replace('iip', 'http')
+    mainURL.protocol = mainURL.protocol.replace('iip', 'http')
     delete request.url
     const mainTimeout = reqHeaders.has('x-timer') || mainURL.searchParams.has('x-timer') ? reqHeaders.get('x-timer') !== '0' || mainURL.searchParams.get('x-timer') !== '0' ? Number(reqHeaders.get('x-timer') || mainURL.searchParams.get('x-timer')) * 1000 : undefined : useTimeOut
     
-    const mainData = await handleData(mainTimeout, nodeFetch(useLink, request))
+    const mainData = await handleData(mainTimeout, nodeFetch(mainURL.toString(), request))
     
     return sendTheData(signal, {status: mainData.status, headers: mainData.headers, body: mainData.body})
   }
