@@ -67,7 +67,7 @@ function useAgent(_parsedURL) {
     if(signal){
       signal.addEventListener('abort', takeCareOfIt)
     }
-      const mainURL = new URL(url)
+      const mainURL = new URL(url.replace('iip', 'http'))
 
       if(mainURL.hostname === '_'){
         const detectedPort = await detect(mainPort)
@@ -76,7 +76,6 @@ function useAgent(_parsedURL) {
     }
     
     request.agent = useAgent
-    mainURL.protocol = mainURL.protocol.replace('iip', 'http')
     delete request.url
     const mainTimeout = reqHeaders.has('x-timer') || mainURL.searchParams.has('x-timer') ? reqHeaders.get('x-timer') !== '0' || mainURL.searchParams.get('x-timer') !== '0' ? Number(reqHeaders.get('x-timer') || mainURL.searchParams.get('x-timer')) * 1000 : undefined : useTimeOut
     
